@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+    }
+    h1 {
+      margin-bottom: 1.5rem;
+    }
+    .logout-btn {
+      margin-bottom: 2rem;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: #f44336;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <a class="logout-btn" href="/auth/logout">Logout</a>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Admin</th>
+      </tr>
+    </thead>
+    <tbody id="userTable"></tbody>
+  </table>
+
+  <script>
+    fetch('/auth/users')
+      .then(res => res.json())
+      .then(users => {
+        const table = document.getElementById('userTable');
+        users.forEach(user => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${user.username}</td>
+            <td>${user.isAdmin ? 'Yes' : 'No'}</td>
+          `;
+          table.appendChild(row);
+        });
+      });
+  </script>
+</body>
+</html>
